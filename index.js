@@ -615,6 +615,13 @@ window.addEventListener('DOMContentLoaded', function() {
     return true;
   }
 
+  $('#savecode').addEventListener('click', function() {
+    var code = turtle.showcmds();
+    var url = 'data:text/plain,' + encodeURIComponent(code);
+    if (!saveDataAs(url, 'turtlecode.py'))
+      Dialog.alert("Sorry, not supported by your browser");
+  });
+
   $('#savelibrary').addEventListener('click', function() {
     var library = logo.procdefs().replace('\n', '\r\n');
     var url = 'data:text/plain,' + encodeURIComponent(library);
