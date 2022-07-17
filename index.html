@@ -27,10 +27,11 @@
 <div id="topbar" class="panel">
   <h1 data-l10n-id="tl-title">Logo Interpreter</h1>
   <p id="topbar-links">
-    <a data-l10n-id="tl-tests" target="_blank" href="tests.html?noglobals">Tests</a>
-    | <a data-l10n-id="tl-source" target="_blank" href="https://github.com/inexorabletash/jslogo">Source</a>
-    | <a title="Collaborate with TogetherJS" href="#" data-l10n-id="start-togetherjs" onclick="TogetherJS(); return false">Collaborate</a>
-    | <select id="select-lang"></select>
+<!--    <a data-l10n-id="tl-tests" target="_blank" href="tests.html?noglobals">Tests</a>
+    |
+--> <a data-l10n-id="tl-source" target="_blank" href="https://github.com/inexorabletash/jslogo">Source</a>
+<!--    | <a title="Collaborate with TogetherJS" href="#" data-l10n-id="start-togetherjs" onclick="TogetherJS(); return false">Collaborate</a>
+    | <select id="select-lang"></select>-->
   </p>
   <p id="topbar-altlinks">
     <a target="_blank" href="language.html" data-l10n-id="tl-reference">Reference</a>
@@ -75,18 +76,18 @@
       <span class="linkdesc">&ndash; <span data-l10n-id="sb-link-text-library">your procedures</span></span>
     <li><a data-l10n-id="sb-link-history" id="sb-link-history" href="#">History</a>
       <span class="linkdesc">&ndash; <span data-l10n-id="sb-link-text-history">everything you've done here</span></span>
-    <li><a data-l10n-id="sb-link-examples" id="sb-link-examples" href="#">Examples</a>
-      <span class="linkdesc">&ndash; <span data-l10n-id="sb-link-text-examples">fun things to try out</span></span>
-    <li><a data-l10n-id="sb-link-extras" id="sb-link-extras" href="#">Extras</a>
+     <!--<li><a data-l10n-id="sb-link-examples" id="sb-link-examples" href="#">Examples</a>
+		<span class="linkdesc">&ndash; <span data-l10n-id="sb-link-text-examples">fun things to try out</span></span>-->
+	<li><a data-l10n-id="sb-link-extras" id="sb-link-extras" href="#">Extras</a>
       <span class="linkdesc">&ndash; <span data-l10n-id="sb-link-text-extras">helpful utilities</span></span>
     <li><a data-l10n-id="sb-link-links" id="sb-link-links" href="#">Links</a>
       <span class="linkdesc">&ndash; <span data-l10n-id="sb-link-text-links">other Logo resources</span></span>
   </ul>
 </div>
 
-<div id="sidebar" class="panel examples">
+<div id="sidebar" class="panel">
   <iframe frameBorder="0" allowtransparency="true" src="language.html" class="choice" id="reference"></iframe>
-  <div class="choice snippets" id="examples"></div>
+  <!--<div class="choice snippets" id="examples"></div>-->
   <div class="choice" id="history">
     <div style="text-align: center; padding: 5px">
       <a id="clearhistory" href="#" data-l10n-id="extras-clear-history">Clear History</a>
@@ -143,6 +144,6 @@
 <script src="dialog.js"></script>
 <script src="index.js"></script>
 <!-- TogetherJS Collaboration -->
-<script src="https://togetherjs.com/togetherjs-min.js"></script>
+<!-- <script src="https://togetherjs.com/togetherjs-min.js"></script> -->
 
 </body>

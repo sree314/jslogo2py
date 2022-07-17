@@ -756,19 +756,19 @@ window.addEventListener('DOMContentLoaded', function() {
   // (URL may be overwritten by localization file)
   //
   localizationComplete.then(function() {
-    fetch(examples)
-      .then(function(response) {
-        if (!response.ok) throw Error(response.statusText);
-        return response.text();
-      })
-      .then(function(text) {
-        var parent = $('#examples');
-        text.split(/\n\n/g).forEach(function(line) {
-          insertSnippet(line, parent, undefined, {
-            noScroll: true
-          });
-        });
-      });
+    // fetch(examples)
+    //   .then(function(response) {
+    //     if (!response.ok) throw Error(response.statusText);
+    //     return response.text();
+    //   })
+    //   .then(function(text) {
+    //     var parent = $('#examples');
+    //     text.split(/\n\n/g).forEach(function(line) {
+    //       insertSnippet(line, parent, undefined, {
+    //         noScroll: true
+    //       });
+    //     });
+    //   });
   });
 
   //
