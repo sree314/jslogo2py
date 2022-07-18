@@ -585,7 +585,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
   var canvas_element = $("#sandbox"), canvas_ctx = canvas_element.getContext('2d'),
       turtle_element = $("#turtle"), turtle_ctx = turtle_element.getContext('2d');
-  turtle = new CanvasTurtle(
+  turtle = new CanvasTurtleRecorder(
     canvas_ctx,
     turtle_ctx,
     canvas_element.width, canvas_element.height, $('#overlay'));

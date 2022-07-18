@@ -134,7 +134,19 @@
 
       showcmds: {value: function() {
           console.log(this._cmds);
-          return this._cmds;
+
+          function array2str(a) {
+              if(Array.isArray(a)) {
+                  return "[" + a.map(x => array2str(x)).join() + "]";
+              } else {
+                  return String(a);
+              }
+          }
+
+          // TODO: do not flatten arrays
+          var code = this._cmds.map(e => e[0] + "(" + e.slice(1).map(x => array2str(x)).join() + ")").join('\n')
+          console.log(code);
+          return code;
       }},
     // Properties
 
