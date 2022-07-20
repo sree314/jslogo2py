@@ -77,8 +77,8 @@
     }},
 
       towards: {value: function(x, y) {
-          this._cmds.push(["towards", x, y]);
-          this._turtle.towards(x, y);
+          //this._cmds.push(["towards", x, y]);
+          return this._turtle.towards(x, y);
     }},
 
       clearscreen: {value: function() {
@@ -138,15 +138,16 @@
           function array2str(a) {
               if(Array.isArray(a)) {
                   return "[" + a.map(x => array2str(x)).join() + "]";
+              } else if (typeof a == 'string') {
+                  return "'" + a + "'";
               } else {
                   return String(a);
               }
           }
 
-          // TODO: do not flatten arrays
-          var code = this._cmds.map(e => e[0] + "(" + e.slice(1).map(x => array2str(x)).join() + ")").join('\n')
+          var code = this._cmds.map(e => "jst." + e[0] + "(" + e.slice(1).map(x => array2str(x)).join() + ")").join('\n')
           console.log(code);
-          return code;
+          return "from jslogort import *\n\njst = JSTurtle()\n" + code;
       }},
     // Properties
 
