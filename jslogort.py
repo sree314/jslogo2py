@@ -7,6 +7,7 @@
 #
 # Licensed under the MIT License
 
+import turtle
 
 undefined = None
 fence = 1
@@ -14,21 +15,34 @@ fence = 1
 class JSTurtle:
     curx = 0
     cury = 0
+    heading = 0
 
     def position(self, xy):
         pass
 
     def home(self):
-        pass
+        turtle.goto(0, 0)
+        (self.curx, self.cury), self.heading = turtle.position(), turtle.heading()
 
     def turtlemode(self, mode):
         pass
 
     def pendown(self, mode):
-        pass
+        if mode:
+            turtle.pendown()
+        else:
+            turtle.penup()
 
     def move(self, distance):
-        pass
+        if distance < 0:
+            turtle.backward(distance)
+        else:
+            turtle.forward(distance)
+
+        (self.curx, self.cury), self.heading = turtle.position(), turtle.heading()
 
     def turn(self, angle):
-        pass
+        # turtle.left handles negative numbers too
+        turtle.left(angle)
+        self.heading = turtle.heading()
+
