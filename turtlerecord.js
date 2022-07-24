@@ -62,6 +62,10 @@
 
     // API methods
 
+      add_command: { value: function(cmd) {
+          this._cmds.push(cmd);
+      }},
+
       resize: {value: function(w, h) {
           this._turtle.resize(w, h);
     }},

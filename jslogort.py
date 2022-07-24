@@ -8,6 +8,7 @@
 # Licensed under the MIT License
 
 import turtle
+import time
 
 undefined = None
 fence = 1
@@ -46,3 +47,6 @@ class JSTurtle:
         turtle.left(angle)
         self.heading = turtle.heading()
 
+    def wait(self, time):
+        # argument time is 1/60 of seconds
+        time.sleep(time * 1.0/60.0)

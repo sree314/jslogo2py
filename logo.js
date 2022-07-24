@@ -3192,7 +3192,10 @@ function LogoInterpreter(turtle, stream, savehook)
   // Not Supported: pause
   // Not Supported: continue
 
-  def("wait", function(time) {
+    def("wait", function(time) {
+        if(turtle.add_command)
+            turtle.add_command(["wait", time]);
+
     return promiseYieldTime(Math.ceil(aexpr(time) / 60 * 1000));
   });
 
