@@ -159,6 +159,7 @@
           console.log(code);
 	  var header = ["from jslogort import *\n", /* leave a blank line */
 			"jst = JSTurtle()",
+			"jst.init()",
 			"jst.pendown(True)"];
 
           return header.join('\n') + '\n' + code;

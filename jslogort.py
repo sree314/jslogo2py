@@ -336,3 +336,7 @@ class JSTurtle:
         else:
             self.not_supported()
 
+    def init(self):
+        for i in [2700, 5300]: turtle.tone(i, 0.3)
+        while not turtle.isButtonPushed():
+            time.sleep(0.1)
