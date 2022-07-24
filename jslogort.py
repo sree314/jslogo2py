@@ -221,10 +221,10 @@ class JSTurtle:
             pass
 
     def not_supported(self):
-        pass
+        turtle.tone(4500, 0.1)
 
     def not_implemented(self):
-        pass
+        turtle.tone(1000, 0.2)
 
     def clearscreen(self):
         self.home()
