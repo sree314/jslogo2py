@@ -198,8 +198,11 @@ class JSTurtle:
         (self.curx, self.cury), self.heading = turtle.position(), turtle.heading()
 
     def turn(self, angle):
-        # turtle.left handles negative numbers too
-        turtle.left(angle)
+        if angle < 0:
+            turtle.left(-angle)
+        else:
+            turtle.right(angle)
+
         self.heading = turtle.heading()
 
     def wait(self, interval):
@@ -242,7 +245,21 @@ class JSTurtle:
         self.not_supported()
 
     def arc(self, angle, radius):
-        self.not_implemented()
+
+        # Without moving the turtle, draws an arc centered on the
+        # turtle, starting at the turtle's heading
+
+        px, py = self.curx, self.cury
+        heading = self.heading
+
+        self.pendown(False)
+        self.turn(angle)
+        self.move(radius)
+        self.pendown(True)
+        turtle.circle(radius, angle)
+        self.pendown(False)
+        turtle.goto(px, py)
+        turtle.setheading(heading)
 
     def getstate(self):
         self.not_supported()
