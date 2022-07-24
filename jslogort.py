@@ -36,9 +36,9 @@ class JSTurtle:
         turtle.left(angle)
         self.heading = turtle.heading()
 
-    def wait(self, time):
+    def wait(self, interval):
         # argument time is 1/60 of seconds
-        time.sleep(time * 1.0/60.0)
+        time.sleep(interval * 1.0/60.0)
 
     def setvar(self, varname, value):
         if varname == "led1":
