@@ -2497,12 +2497,19 @@ function LogoInterpreter(turtle, stream, savehook)
 
   // 7.2 Variable Definition
 
-  def("make", function(varname, value) {
-    setvar(sexpr(varname), value);
+    def("make", function(varname, value) {
+        var sv = sexpr(varname);
+        if(turtle.is_global_var && turtle.is_global_var(sv))
+            turtle.add_command(["setvar", sv, value]);
+        setvar(sv, value);
   });
 
   def("name", function(value, varname) {
-    setvar(sexpr(varname), value);
+      var sv = sexpr(varname);
+      if(turtle.is_global_var && turtle.is_global_var(sv))
+          turtle.add_command(["setvar", sv, value]);
+
+      setvar(sv, value);
   });
 
   def("local", function(varname) {
@@ -2519,8 +2526,12 @@ function LogoInterpreter(turtle, stream, savehook)
 
   def("global", function(varname) {
     var globalscope = this.scopes[0];
-    Array.from(arguments).forEach(function(name) {
-      globalscope.set(sexpr(name), {value: undefined}); });
+      Array.from(arguments).forEach(function(name) {
+          var sv = sexpr(name);
+          if(turtle.is_global_var && turtle.is_global_var(sv))
+              turtle.add_command(["setvar", sv, undefined]);
+
+          globalscope.set(sv, {value: undefined}); });
   }, {maximum: -1});
 
   //

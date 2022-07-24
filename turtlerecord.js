@@ -38,6 +38,7 @@
   function CanvasTurtleRecorder(canvas_ctx, turtle_ctx, w, h, events) {
       this._turtle = new CanvasTurtle(canvas_ctx, turtle_ctx, w, h, events);
       this._cmds = Array();
+      this._globals = ["led1", "led2", "emitter", "ir1", "ir2"];
   }
 
   Object.defineProperties(CanvasTurtleRecorder.prototype, {
@@ -61,6 +62,11 @@
     // }},
 
     // API methods
+
+      is_global_var: { value: function(varname) {
+          //console.log(varname + (this._globals.indexOf(varname) != -1));
+          return this._globals.indexOf(varname) != -1;
+      }},
 
       add_command: { value: function(cmd) {
           this._cmds.push(cmd);
@@ -137,7 +143,7 @@
     }},
 
       showcmds: {value: function() {
-          console.log(this._cmds);
+          //console.log(this._cmds);
 
           function array2str(a) {
               if(Array.isArray(a)) {
