@@ -330,5 +330,9 @@ class JSTurtle:
     def scrunch(self, sc):
         self.not_implemented()
 
-
+    def penmode(self, penmode):
+        if penmode == "paint":
+            pass
+        else:
+            self.not_supported()
 
