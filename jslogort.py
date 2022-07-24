@@ -20,6 +20,7 @@ class JSTurtle:
 
     def home(self):
         turtle.goto(0, 0)
+        turtle.setheading(0)
         (self.curx, self.cury), self.heading = turtle.position(), turtle.heading()
 
     def move(self, distance):
@@ -41,15 +42,15 @@ class JSTurtle:
 
     def setvar(self, varname, value):
         if varname == "led1":
-            turtle.leftLED = value != 0
+            turtle.leftLED.value = value != 0
         elif varname == "led2":
-            turtle.rightLED = value != 0
+            turtle.rightLED.value = value != 0
         elif varname == "ir1":
-            turtle.leftDetector = value != 0
+            turtle.leftDetector.value = value != 0
         elif varname == "ir2":
-            turtle.rightDetector = value != 0
+            turtle.rightDetector.value = value != 0
         elif varname == "emitter":
-            turtle.emitter = value != 0
+            turtle.emitter.value = value != 0
         else:
             pass
 
@@ -111,8 +112,8 @@ class JSTurtle:
         turtle.goto(xy[0], xy[1])
         (self.curx, self.cury), self.heading = turtle.position(), turtle.heading()
 
-    def heading(self, angle):
-        turtle.left(angle)
+    def setheading(self, angle):
+        turtle.setheading(angle)
 
     def visible(self, visible):
         if not visible:

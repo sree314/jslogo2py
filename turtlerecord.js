@@ -157,7 +157,11 @@
 
           var code = this._cmds.map(e => "jst." + e[0] + "(" + e.slice(1).map(x => array2str(x)).join() + ")").join('\n')
           console.log(code);
-          return "from jslogort import *\n\njst = JSTurtle()\n" + code;
+	  var header = ["from jslogort import *\n", /* leave a blank line */
+			"jst = JSTurtle()",
+			"jst.pendown(True)"];
+
+          return header.join('\n') + '\n' + code;
       }},
     // Properties
 
@@ -241,7 +245,7 @@
           return this._turtle.heading;
       },
         set: function(angle) {
-            this._cmds.push(["heading", angle])
+            this._cmds.push(["setheading", angle])
             this._turtle.heading = angle;
       }
     },
