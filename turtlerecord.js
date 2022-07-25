@@ -165,9 +165,11 @@
           var code = this._cmds.map(e => "jst." + e[0] + "(" + e.slice(1).map(x => array2str(x)).join() + ")").join('\n')
           console.log(code);
 	  var header = ["from jslogort import *\n", /* leave a blank line */
-			"jst = JSTurtle()",
-			"jst.init()",
-			"jst.pendown(True)"];
+			        "jst = JSTurtle()",
+                    "true = True",
+                    "false = False",
+			        "jst.init()",
+			        "jst.pendown(True)"];
 
           return header.join('\n') + '\n' + code;
       }},
