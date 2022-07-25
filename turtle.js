@@ -92,7 +92,8 @@
       this.turtle_ctx.lineWidth = 2;
 
       this.canvas_ctx.lineCap = 'round';
-
+      this.led1 = false;
+      this.led2 = false;
       // Restore canvas state controlled by properties:
       this.color = this.color;
       this.fontname = this.fontname;
@@ -110,7 +111,8 @@
 
       requestAnimationFrame(this._tick.bind(this));
       var cur = JSON.stringify([this.x, this.y, this.r, this.visible,
-                                this.sx, this.sy, this.width, this.height]);
+                                this.sx, this.sy, this.width, this.height,
+                                this.led1, this.led2]);
       if (cur === this._last_state) return;
       this._last_state = cur;
 
@@ -158,8 +160,22 @@
 
         ctx.closePath();
         ctx.stroke();
-
         ctx.restore();
+
+
+        var leds = [this.led1, this.led2];
+
+        for(let ndx = 0; ndx < leds.length; ndx++) {
+          let led = leds[ndx];
+          ctx.beginPath();
+          ctx.ellipse(this.width/2-2*(18*(ndx+1)), this.height/2 - 17, 15, 15, 0, 0, 2 * Math.PI);
+          ctx.closePath();
+          ctx.stroke();
+          if(led) {
+            ctx.fillStyle = 'green';
+            ctx.fill();
+          }
+        }
       }
     }},
 

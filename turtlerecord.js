@@ -68,7 +68,14 @@
           return this._globals.indexOf(varname) != -1;
       }},
 
-      add_command: { value: function(cmd) {
+    add_command: { value: function(cmd) {
+      if(cmd[0] == "setvar") {
+        if(cmd[1] == "led1") {
+          this._turtle.led1 = cmd[2];
+        } else if (cmd[1] == "led2") {
+          this._turtle.led2 = cmd[2];
+        }
+      }
           this._cmds.push(cmd);
       }},
 
