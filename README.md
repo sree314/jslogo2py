@@ -13,6 +13,10 @@ turtle robot: the IR emitters, the button, and the piezo speaker are
 not exposed to the Logo interpreter. The LEDs are available as two
 boolean variables `led1` and `led2`.
 
+Like the original code, the modifications are licensed under the
+Apache License, version 2.0. The copyright is owned by the University
+of Rochester.
+
 Original README contents below:
 
 jslogo - Logo in JavaScript
