@@ -1,3 +1,20 @@
+# jslogo2py
+
+This is a fork of [jslogo](https://github.com/inexorabletash/jslogo/) that is modified for use in a Logo workshop where students wrote Logo programs and ran it on the [Open Source Turtle Robot](https://github.com/aspro648/OSTR/). To achieve this, I wrote `turtlerecord.js` which interposes between `logo.js` and `turtle.js` to record all turtle [graphics] commands as a trace. These turtle commands are converted to CircuitPython and executed using a special runtime (`jslogort.py`) that interfaces to the OSTR libraries.
+
+To use this, write a Logo program as usual and use the `Save to
+Turtle` link to save `turtlecode.py` to the `CIRCUITPYTHON` drive. The
+turtle should give two beeps and wait for a button press before
+executing the Logo program.
+
+Since this captures a trace, some control flow (e.g. `repeat forever`)
+will not work as expected. For the same reason, some features of the
+turtle robot: the IR emitters, the button, and the piezo speaker are
+not exposed to the Logo interpreter. The LEDs are available as two
+boolean variables `led1` and `led2`.
+
+Original README contents below:
+
 jslogo - Logo in JavaScript
 ===========================
 
