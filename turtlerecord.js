@@ -39,6 +39,7 @@
       this._turtle = new CanvasTurtle(canvas_ctx, turtle_ctx, w, h, events);
       this._cmds = Array();
       this._globals = ["led1", "led2", "emitter", "ir1", "ir2"];
+      this._code = null;
   }
 
   Object.defineProperties(CanvasTurtleRecorder.prototype, {
@@ -149,6 +150,34 @@
           this._turtle.setstate(state);
     }},
 
+      setcode: {value: function(code) {
+	  this._code = code;
+      }},
+
+      showcmds2: {value: function() {
+          function array2str(a) {
+              if(Array.isArray(a)) {
+                  return "[" + a.map(x => array2str(x)).join() + "]";
+              } else if (typeof a == 'string') {
+                  return "'" + a + "'";
+              } else {
+                  return String(a);
+              }
+          }
+
+	  var header = ["from jslogort import *\n", /* leave a blank line */
+			"jst = JSTurtle()",
+			"true = True",
+			"false = False",
+			"jst.init()",
+			"jst.pendown(True)",
+			"code = " + array2str(this._code),
+		        "jst.setcode(code)",
+			"jst.run()"];
+
+          return header.join('\n') + '\n';
+      }},
+
       showcmds: {value: function() {
           //console.log(this._cmds);
 
@@ -165,11 +194,11 @@
           var code = this._cmds.map(e => "jst." + e[0] + "(" + e.slice(1).map(x => array2str(x)).join() + ")").join('\n')
           console.log(code);
 	  var header = ["from jslogort import *\n", /* leave a blank line */
-			        "jst = JSTurtle()",
-                    "true = True",
-                    "false = False",
-			        "jst.init()",
-			        "jst.pendown(True)"];
+			"jst = JSTurtle()",
+			"true = True",
+			"false = False",
+			"jst.init()",
+			"jst.pendown(True)"];
 
           return header.join('\n') + '\n' + code;
       }},

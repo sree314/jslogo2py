@@ -1157,7 +1157,7 @@ function LogoInterpreter(turtle, stream, savehook)
     return self.queueTask(function() {
       // Parse it
       var atoms = parse(string);
-
+      self.turtle.setcode(atoms);
       // And execute it!
       return self.execute(atoms, options)
         .catch(function(err) {
