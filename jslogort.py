@@ -9,6 +9,7 @@
 
 import turtle
 import time
+import logo
 
 undefined = None
 fence = 1
@@ -340,3 +341,7 @@ class JSTurtle:
         for i in [2700, 5300]: turtle.tone(i, 0.3)
         while not turtle.isButtonPushed():
             time.sleep(0.1)
+
+    def run(self, code):
+        r = logo.Logo(self)
+        return r.run(code)
