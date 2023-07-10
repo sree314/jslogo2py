@@ -34,12 +34,56 @@ import re
 NUMBER = re.compile("-?([0-9]*\\.?[0-9]+([eE][\\-+]?[0-9]+)?)")
 UNARY_MINUS = '<UNARYMINUS>'
 
+class StringMap:
+    def __init__(self, case_fold):
+        self._case_fold = case_fold
+        self._map = {}
+
+    def get(self, key):
+        key = key if not self._case_fold else key.lower()
+        return self._map.get(key, None)
+
+    def set(self, key, value):
+        key = key if not self._case_fold else key.lower()
+        self._map[key] = value
+
+    def has(self, key):
+        key = key if not self._case_fold else key.lower()
+        return key in self._map
+
+    def delete(self, key):
+        key = key if not self._case_fold else key.lower()
+        del self._map[key]
+
+    def keys(self):
+        return self.keys()
+
+    def empty(self):
+        return len(self._map) == 0
+
+    # forEach
+
 class Logo:
     def __init__(self, turtle):
         self.turtle = turtle
+        self.routines = StringMap(True)
+        self.stack = []
+        
+        self.define_motion()
 
     def run(self, code):
         return self.evaluateExpression(code)
+
+    def define(self, names, code, props = None):
+        if props is None: props = {}
+        for n in names:
+            self.routines.set(n, {'code': code, 'props': props})
+
+    def forward(self, a):
+        return self.turtle.move(self.aexpr(a))
+
+    def define_motion(self):
+        self.define(['forward', 'fd'], self.forward, {'args': 1})
 
     # err
 
@@ -209,12 +253,33 @@ class Logo:
             if atom == ')':
                 assert False, "Unexpected )"
 
-            self.dispatch(atom, l, true)
+            self.dispatch(atom, l, True)
         else:
             assert False, "Internal error in finalExpression"
 
     def dispatch(self, name, tokenlist, natural):
-        raise NotImplementedError
+        name = name.upper()
+        proc = self.routines.get(name)
+        if proc is None:
+            assert False, "ERROR: {} undefined".format(name)
+
+        if proc['props'].get('special', False):
+            raise NotImplementedError
+
+        if natural:
+            args = []
+            for i in range(proc['props'].get('args')):
+                args.append(self.expression(tokenlist))
+        else:
+            raise NotImplementedError
+
+        if proc['props'].get('noeval', False):
+            raise NotImplementedError
+
+        self.stack.append(name)
+        rv = proc['code'](*args)
+        self.stack.pop()
+        return rv
 
     def aexpr(self, atom):
         if atom is not None and self.Type(atom) == 'word':
@@ -223,7 +288,8 @@ class Logo:
 
         assert False, "Expecting number"
 
-    # TODO: copy, equal
+    # TODO: copy
+
     def equal(self, a, b):
         at = self.Type(a)
         bt = self.Type(b)
