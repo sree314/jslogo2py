@@ -7,7 +7,13 @@
 #
 # Licensed under the MIT License
 
-import turtle
+import sys
+
+if sys.implementation.name == 'circuitpython':
+    import cpturtle as turtle
+else:
+    import pyturtle as turtle
+
 import time
 import logo
 
