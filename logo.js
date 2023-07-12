@@ -1152,12 +1152,30 @@ function LogoInterpreter(turtle, stream, savehook)
     return promise;
   };
 
+  function do_reparse(lst) {
+      if(Type(lst) == 'list') {
+          var newlst = reparse(lst);
+          var outlst = [];
+	  var i;
+          for(i = 0; i < newlst.length; i++) {
+              if(Type(newlst[i]) == 'list') {
+                  outlst.push(do_reparse(newlst[i]));
+              } else {
+                  outlst.push(newlst[i]);
+              }
+          }
+          return outlst;
+      } else {
+          return lst;
+      }
+  }
+
   self.run = function(string, options) {
     options = Object(options);
     return self.queueTask(function() {
       // Parse it
       var atoms = parse(string);
-      self.turtle.setcode(atoms);
+      self.turtle.setcode(do_reparse(atoms));
       // And execute it!
       return self.execute(atoms, options)
         .catch(function(err) {
