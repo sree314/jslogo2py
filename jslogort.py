@@ -190,6 +190,7 @@ class JSTurtle:
     curx = 0
     cury = 0
     heading = 0
+    pendownp = 0
 
     def home(self):
         turtle.goto(0, 0)
@@ -278,10 +279,18 @@ class JSTurtle:
         self.not_supported()
 
     def pendown(self, mode):
+        self._pendownp = mode
+
         if mode:
             turtle.pendown()
         else:
             turtle.penup()
+
+    def pendownp(self):
+        return self._pendownp
+
+    def buttonp(self):
+        return turtle.isButtonPushed()
 
     def color(self, color):
         c = color.lower()
@@ -328,6 +337,12 @@ class JSTurtle:
 
     def setheading(self, angle):
         turtle.setheading(angle)
+
+    def towards(self, x, y):
+        # note: turtle.js uses 90 - , while getBearing uses (angle + 360) % 360?
+
+        # set heading to 0 (north)
+        return turtle.getBearing2(x, y, self.curx, self.cury)
 
     def visible(self, visible):
         if not visible:

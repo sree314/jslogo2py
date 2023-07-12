@@ -83,22 +83,123 @@ class Logo:
         for n in names:
             self.routines.set(n, {'code': code, 'props': props})
 
+    # motion
     def forward(self, a):
         return self.turtle.move(self.aexpr(a))
 
+    def back(self, a):
+        return self.turtle.move(-self.aexpr(a))
+
+    def left(self, a):
+        return self.turtle.turn(-self.aexpr(a))
+
+    def right(self, a):
+        return self.turtle.turn(self.aexpr(a))
+
+    # no support for arrows
+
+    def setpos(self, l):
+        l = self.lexpr(l)
+        assert len(l) == 2, "Need list of length 2 for setpos"
+        self.turtle.position([self.aexpr(l[0]), self.aexpr(l[1])])
+
+    def setxy(self, x, y):
+        self.turtle.position([self.aexpr(x), self.aexpr(y)])
+
+    def setx(self, x):
+        self.turtle.position([self.aexpr(x), self.turtle.cury])
+
+    def sety(self, y):
+        self.turtle.position([self.turtle.curx, self.aexpr(y)])
+
+    def setheading(self, heading):
+        self.turtle.setheading(self.aexpr(heading))
+
+    def home(self):
+        # TODO
+        return self.turtle.home()
+
+    def arc(self, angle, radius):
+        # TODO: what does this return?
+        return self.turtle.arc([self.aexpr(angle), self.aexpr(radius)])
+
+    # motion queries
+
+    def pos(self):
+        return [self.turtle.curx, self.turtle.cury]
+
+    def xcor(self):
+        return self.turtle.curx
+
+    def ycor(self):
+        return self.turtle.cury
+
+    def heading(self):
+        return self.turtle.heading
+
+    def towards(self, l):
+        l = self.lexpr(l)
+
+        assert len(l) == 2, "towards expects list of length 2"
+
+        return self.turtle.towards(self.aexpr(l[0]), self.aexpr(l[1]))
+
+    # scrunch
+
+    # clean, wrap, window, fence, fill, filled, label, setlabelheight, setlabelfont
+    # setscrunch
+    # shownp, turtlemode, labelsize, labelfont
+
+    def clearscreen(self):
+        self.turtle.clearscreen()
+
+    def penup(self):
+        self.turtle.pendown(False)
+
+    def pendown(self):
+        self.turtle.pendown(True)
+
+    # penpaint, penerase, penreverse
+
+    # TODO: setpencolor, setpc, setcolor
+
+    # setpalette, setpensize, setwidth, setpw
+    # setbackground, setbg, setscreencolor, setsc
+
+    def pendownp(self):
+        return 1 if self.turtle.pendownp() else 0
+
+    def buttonp(self):
+        return 1 if self.turtle.buttonp() else 0
+
     def define_motion(self):
         self.define(['forward', 'fd'], self.forward, 1)
+        self.define(['back', 'bk'], self.back, 1)
+        self.define(['left', 'lt'], self.left, 1)
+        self.define(['right', 'rt'], self.right, 1)
 
-    def execute(self, statements, options = None):
-        statements = list(statements) # shallow copy [.slice in original]
+        self.define(['setpos'], self.setpos, 1)
+        self.define(['setxy'], self.setxy, 1)
+        self.define(['setx'], self.setx, 1)
+        self.define(['sety'], self.sety, 1)
+        self.define(['setheading', 'seth'], self.setheading, 1)
 
-        while len(statements):
-            result = self.evaluateExpression(statements)
-            # TODO: return result?
-            lastResult = result
+        self.define(['home'], self.home, 0)
+        self.define(['arc'], self.arc, 2)
+        self.define(['pos'], self.pos, 0)
+        self.define(['xcor'], self.xcor, 0)
+        self.define(['ycor'], self.ycor, 0)
+        self.define(['heading'], self.heading, 0)
+        self.define(['towards'], self.towards, 1)
 
-        return lastResult
+        self.define(['clearscreen'], self.clearscreen, 0)
+        self.define(['pendown', 'pd'], self.pendown, 0)
+        self.define(['penup', 'pu'], self.penup, 0)
 
+        self.define(['pendownp', 'pendown?'], self.pendownp, 0)
+        self.define(['buttonp', 'button?'], self.buttonp, 0)
+
+    # control
     def repeat(self, count, statements):
         count = self.aexpr(count)
         statements = self.lexpr(statements)
@@ -169,6 +270,16 @@ class Logo:
     # setvar
     # local
     # set local
+
+    def execute(self, statements, options = None):
+        statements = list(statements) # shallow copy [.slice in original]
+
+        while len(statements):
+            result = self.evaluateExpression(statements)
+            # TODO: return result?
+            lastResult = result
+
+        return lastResult
 
     def isNumber(self, atom):
         m = NUMBER.match(str(atom))
