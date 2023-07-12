@@ -68,14 +68,18 @@ class Logo:
         self.turtle = turtle
         self.routines = StringMap(True)
         self.stack = []
-        
+        self._repcount = 0
         self.define_motion()
+        self.define_control()
 
     def run(self, code):
         return self.evaluateExpression(code)
 
-    def define(self, names, code, props = None):
+    def define(self, names, code, nargs, props = None):
         if props is None: props = {}
+
+        props['args'] = nargs
+
         for n in names:
             self.routines.set(n, {'code': code, 'props': props})
 
@@ -83,7 +87,51 @@ class Logo:
         return self.turtle.move(self.aexpr(a))
 
     def define_motion(self):
-        self.define(['forward', 'fd'], self.forward, {'args': 1})
+        self.define(['forward', 'fd'], self.forward, 1)
+
+    def execute(self, statements, options = None):
+        statements = list(statements) # shallow copy [.slice in original]
+
+        while len(statements):
+            result = self.evaluateExpression(statements)
+            # TODO: return result?
+            lastResult = result
+
+        return lastResult
+
+    def repeat(self, count, statements):
+        count = self.aexpr(count)
+        statements = self.lexpr(statements)
+        old_repcount = self._repcount
+        i = 1
+
+        while not (i > count):
+            self.execute(statements)
+            i += 1
+            self._repcount = i
+
+        self._repcount = old_repcount
+
+    def repcount(self):
+        return self._repcount
+
+    def forever(self, statements):
+        statements = self.lexpr(statements)
+        old_repcount = self._repcount
+        i = 1
+
+        while True:
+            self.execute(statements)
+            i += 1
+            self._repcount = i
+
+        self._repcount = old_repcount
+
+    def define_control(self):
+        # TODO: run, runresult
+        self.define(['repeat'], self.repeat, 2)
+        self.define(['forever'], self.forever, 1)
+        self.define(['repcount', '#'], self.repcount, 0)
 
     # err
 
@@ -253,7 +301,7 @@ class Logo:
             if atom == ')':
                 assert False, "Unexpected )"
 
-            self.dispatch(atom, l, True)
+            return self.dispatch(atom, l, True)
         else:
             assert False, "Internal error in finalExpression"
 
@@ -288,7 +336,18 @@ class Logo:
 
         assert False, "Expecting number"
 
-    # TODO: copy
+    def lexpr(self, atom):
+        assert atom is not None
+        if self.Type(atom) == 'word':
+            raise NotImplementedError
+        else:
+            return self.copy(atom)
+
+    def copy(self, value):
+        if self.Type(value) == 'list':
+            return list(value)
+        else:
+            return value
 
     def equal(self, a, b):
         at = self.Type(a)
