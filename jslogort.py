@@ -7,8 +7,15 @@
 #
 # Licensed under the MIT License
 
-import turtle
+import sys
+
+if sys.implementation.name == 'circuitpython':
+    import cpturtle as turtle
+else:
+    import pyturtle as turtle
+
 import time
+import logo
 
 undefined = None
 fence = 1
@@ -183,6 +190,7 @@ class JSTurtle:
     curx = 0
     cury = 0
     heading = 0
+    pendownp = 0
 
     def home(self):
         turtle.goto(0, 0)
@@ -209,7 +217,14 @@ class JSTurtle:
         # argument time is 1/60 of seconds
         time.sleep(interval * 1.0/60.0)
 
+    def is_io_var(self, varname):
+        varname = varname.lower()
+
+        return varname == "led1" or varname == "led2" or varname == "ir1" or varname == "ir2" or varname == "emitter"
+
     def setvar(self, varname, value):
+        varname = varname.lower()
+
         if varname == "led1":
             turtle.leftLED.value = value != 0
         elif varname == "led2":
@@ -271,10 +286,18 @@ class JSTurtle:
         self.not_supported()
 
     def pendown(self, mode):
+        self._pendownp = mode
+
         if mode:
             turtle.pendown()
         else:
             turtle.penup()
+
+    def pendownp(self):
+        return self._pendownp
+
+    def buttonp(self):
+        return turtle.isButtonPushed()
 
     def color(self, color):
         c = color.lower()
@@ -322,6 +345,15 @@ class JSTurtle:
     def setheading(self, angle):
         turtle.setheading(angle)
 
+    def towards(self, x, y):
+        # note: turtle.js uses 90 - , while getBearing uses (angle + 360) % 360?
+
+        # set heading to 0 (north)
+        return turtle.getBearing2(x, y, self.curx, self.cury)
+
+    def tone(self, freq, time):
+        turtle.tone(freq, time)
+
     def visible(self, visible):
         if not visible:
             # don't know how to make things invisible
@@ -340,3 +372,7 @@ class JSTurtle:
         for i in [2700, 5300]: turtle.tone(i, 0.3)
         while not turtle.isButtonPushed():
             time.sleep(0.1)
+
+    def run(self, code):
+        r = logo.Logo(self)
+        return r.run(code)
