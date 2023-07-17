@@ -172,8 +172,7 @@
 			"jst.init()",
 			"jst.pendown(True)",
 			"code = " + array2str(this._code),
-		        "jst.setcode(code)",
-			"jst.run()"];
+			"jst.run(code)"];
 
           return header.join('\n') + '\n';
       }},
