@@ -3226,7 +3226,11 @@ function LogoInterpreter(turtle, stream, savehook)
             turtle.add_command(["wait", time]);
 
     return promiseYieldTime(Math.ceil(aexpr(time) / 60 * 1000));
-  });
+    });
+
+    def("beep", function() {
+	turtle.beep();
+    });
 
   def("bye", function() {
     throw new Bye;

@@ -135,6 +135,11 @@
           this._turtle.fill();
     }},
 
+      beep: {value: function() {
+          this._cmds.push(["beep"]);
+          //this._turtle.beep();
+      }},
+
       arc: {value: function(angle, radius) {
           this._cmds.push(["arc", angle, radius]);
           this._turtle.arc(angle, radius);
@@ -159,7 +164,7 @@
               if(Array.isArray(a)) {
                   return "[" + a.map(x => array2str(x)).join() + "]";
               } else if (typeof a == 'string') {
-                  return "'" + a + "'";
+                  return "'" + a.replaceAll("'", "\\'") + "'";
               } else {
                   return String(a);
               }
