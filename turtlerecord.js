@@ -38,6 +38,7 @@
   function CanvasTurtleRecorder(canvas_ctx, turtle_ctx, w, h, events) {
       this._turtle = new CanvasTurtle(canvas_ctx, turtle_ctx, w, h, events);
       this._cmds = Array();
+      // must be all lowercase
       this._globals = ["led1", "led2", "emitter", "ir1", "ir2"];
       this._code = null;
   }
@@ -66,14 +67,14 @@
 
       is_global_var: { value: function(varname) {
           //console.log(varname + (this._globals.indexOf(varname) != -1));
-          return this._globals.indexOf(varname) != -1;
+          return this._globals.indexOf(varname.toLowerCase()) != -1;
       }},
 
     add_command: { value: function(cmd) {
       if(cmd[0] == "setvar") {
-        if(cmd[1] == "led1") {
+       if(cmd[1].toLowerCase() == "led1") {
           this._turtle.led1 = cmd[2];
-        } else if (cmd[1] == "led2") {
+       } else if (cmd[1].toLowerCase() == "led2") {
           this._turtle.led2 = cmd[2];
         }
       }
