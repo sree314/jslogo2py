@@ -1,17 +1,29 @@
 # jslogo2py
 
-This is a fork of [jslogo](https://github.com/inexorabletash/jslogo/) that is modified for use in a Logo workshop where students wrote Logo programs and ran it on the [Open Source Turtle Robot](https://github.com/aspro648/OSTR/). To achieve this, I wrote `turtlerecord.js` which interposes between `logo.js` and `turtle.js` to record all turtle [graphics] commands as a trace. These turtle commands are converted to CircuitPython and executed using a special runtime (`jslogort.py`) that interfaces to the OSTR libraries.
+This is a fork of [jslogo](https://github.com/inexorabletash/jslogo/) that is modified for use in a Logo workshop where students wrote Logo programs and ran it on the [Open Source Turtle Robot](https://github.com/aspro648/OSTR/).
+
+To achieve this, I built a Logo interpreter in CircuitPython and added
+it to [my version of the OSTR
+firmware](https://github.com/sree314/ostr-firmware/). This fork
+produces a CircuitPython program that contains a tokenized version of
+the Logo program which is then interpreted on the board.
 
 To use this, write a Logo program as usual and use the `Save to
 Turtle` link to save `turtlecode.py` to the `CIRCUITPYTHON` drive. The
 turtle should give two beeps and wait for a button press before
 executing the Logo program.
 
-Since this captures a trace, some control flow (e.g. `repeat forever`)
-will not work as expected. For the same reason, some features of the
-turtle robot: the IR emitters, the button, and the piezo speaker are
-not exposed to the Logo interpreter. The LEDs are available as two
-boolean variables `led1` and `led2`.
+Compared to the previous version, this version adds support for
+`REPEAT`, `FOREVER`, and `REPCOUNT`. It also adds a `BEEP` command to
+drive the Piezo speaker on the OSTR. The LEDs are available as two
+boolean variables `led1` and `led2`.  Other features of the turtle
+robot: the IR emitters, the button are not yet exposed to the Logo
+interpreter.
+
+The 2022 version of this fork captured a trace instead of saving the
+tokenized program, and that code can be found in `turtlerecord.js`. It
+is no longer used since the trace could not handle control flow
+(e.g. `forever`) and will be removed in the future.
 
 Like the original code, the modifications are licensed under the
 Apache License, version 2.0. The copyright is owned by the University
