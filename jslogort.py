@@ -1,1 +1,0 @@
-/u/spai4/extsrc/jslogo2py/jslogort.py
