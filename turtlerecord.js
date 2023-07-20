@@ -39,7 +39,7 @@
       this._turtle = new CanvasTurtle(canvas_ctx, turtle_ctx, w, h, events);
       this._cmds = Array();
       // must be all lowercase
-      this._globals = ["led1", "led2", "emitter", "ir1", "ir2"];
+      this._globals = ["led1", "led2", "emitter"];
       this._code = null;
   }
 
@@ -321,6 +321,14 @@
 
     button: {
       get: function() { return this._turtle.button; }
+    },
+
+    leftsensor: {
+      get: function() { return 0; }
+    },
+
+    rightsensor: {
+      get: function() { return 0; }
     }
 
   });

@@ -2404,6 +2404,15 @@ function LogoInterpreter(turtle, stream, savehook)
     return turtle.button;
   });
 
+  def("leftsensor", function() {
+    return turtle.leftsensor;
+  });
+
+  def("rightsensor", function() {
+    return turtle.rightsensor;
+  });
+
+
   //----------------------------------------------------------------------
   //
   // 7. Workspace Management
