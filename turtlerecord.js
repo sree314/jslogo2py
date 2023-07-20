@@ -19,7 +19,7 @@
 (function(global) {
   'use strict';
 
-  //function deg2rad(d) { return d / 180 * Math.PI; }
+  function deg2rad(d) { return d / 180 * Math.PI; }
   //function rad2deg(r) { return r * 180 / Math.PI; }
 
   // function font(px, name) {
@@ -324,11 +324,61 @@
     },
 
     leftsensor: {
-      get: function() { return 0; }
+	get: function() {
+	    var pos = this._turtle.position;
+	    var ytop = this._turtle.height / 2;
+	    var ybot = -ytop;
+	    var xright = this._turtle.width / 2;
+	    var xleft = -xright;
+
+	    var dis;
+	    var head = this._turtle.heading;
+
+	    function quaddistance(heading, cardinal_start, cardinal_end) {
+		if(heading > 0) {
+		    return Math.min(cardinal_start / Math.cos(deg2rad(heading)),
+				    cardinal_end / Math.cos(deg2rad(90 - heading)));
+		} else {
+		    return cardinal_start;
+		}
+	    }
+
+	    var to_top = (ytop - pos[1]);
+	    var to_right = (xright - pos[0]);
+	    var to_bot = (pos[1] - ybot);
+	    var to_left = (pos[0] - xleft);
+
+	    if(head < 0) head += 360;
+
+	    head = head % 360;
+
+	    if(head >= 0 && head < 90) {
+		dis = quaddistance(head, to_top, to_right);
+	    } else if (head >= 90 && head < 180) {
+		dis = quaddistance(head - 90, to_right, to_bot);
+	    } else if (head >= 180 && head < 270) {
+		dis = quaddistance(head - 180, to_bot, to_left);
+	    } else if (head >= 270 && head < 360) {
+		dis = quaddistance(head - 270, to_left, to_top);
+	    }
+
+	    // make this kinda behave like the sensor
+	    if(false) {  // real distance
+		dis = Math.abs(dis) - this._turtle.turtlerad;
+		return dis;
+	    }
+	    else {
+		if(dis > 50)
+		    return 40000;
+		else {
+		    return (dis / 50) * 5000;
+		}
+	    }
+	}
     },
 
     rightsensor: {
-      get: function() { return 0; }
+	get: function() { return this.leftsensor; }
     }
 
   });

@@ -43,7 +43,7 @@
     this.turtle_ctx = turtle_ctx;
     this.width = Number(w);
     this.height = Number(h);
-
+    this.turtlerad = 22;
     this.x = this.py = 0;
     this.y = this.py = 0;
     this.r = Math.PI / 2;
@@ -161,6 +161,11 @@
         ctx.closePath();
         ctx.stroke();
         ctx.restore();
+
+        // ctx.beginPath();
+        // ctx.ellipse(this.x, this.y, this.turtlerad, this.turtlerad, 0, 0, 2 * Math.PI);
+        // ctx.closePath();
+        // ctx.stroke();
 
 
         var leds = [this.led1, this.led2];
