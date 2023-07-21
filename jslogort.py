@@ -220,7 +220,7 @@ class JSTurtle:
     def is_io_var(self, varname):
         varname = varname.lower()
 
-        return varname == "led1" or varname == "led2" or varname == "ir1" or varname == "ir2" or varname == "emitter"
+        return varname == "led1" or varname == "led2" or varname == "emitter"
 
     def setvar(self, varname, value):
         varname = varname.lower()
@@ -229,14 +229,16 @@ class JSTurtle:
             turtle.leftLED.value = value != 0
         elif varname == "led2":
             turtle.rightLED.value = value != 0
-        elif varname == "ir1":
-            turtle.leftDetector.value = value != 0
-        elif varname == "ir2":
-            turtle.rightDetector.value = value != 0
         elif varname == "emitter":
             turtle.emitter.value = value != 0
         else:
             pass
+
+    def leftDetector(self):
+        return turtle.leftDetector.value
+
+    def rightDetector(self):
+        return turtle.rightDetector.value
 
     def not_supported(self):
         turtle.tone(4500, 0.1)
